@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Question – Défi Brandt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #000000;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .question-box {
+      background: #db1414;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .choice {
+      background: white;
+      border: 2px solid #5e0202;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .choice:hover {
+      background: #f70404;
+      color: white;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 id="categoryTitle"></h1>
+
+  <div class="question-box">
+    <p id="questionText"></p>
+
+    <div class="choice" onclick="checkAnswer('A')" id="A"></div>
+    <div class="choice" onclick="checkAnswer('B')" id="B"></div>
+    <div class="choice" onclick="checkAnswer('C')" id="C"></div>
+    <div class="choice" onclick="checkAnswer('D')" id="D"></div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const questions = {
+      fridge: {
+        title: "❄️ Réfrigérateurs Brandt",
+        question: "Quel est l’un des principaux avantages des réfrigérateurs Brandt ?",
+        answers: {
+          A: "Faible consommation d’énergie",
+          B: "Design uniquement",
+          C: "Sans garantie",
+          D: "Refroidissement lent"
+        },
+        correct: "A"
+      },
+      oven: {
+        title: "🍳 Fours & Cuisinières Brandt",
+        question: "Quelle technologie améliore la cuisson des fours Brandt ?",
+        answers: {
+          A: "Cuisson homogène",
+          B: "Chaleur aléatoire",
+          C: "Sans programmes",
+          D: "Température instable"
+        },
+        correct: "A"
+      },
+      washer: {
+        title: "🧺 Lave-linge Brandt",
+        question: "Quel est un avantage clé des lave-linge Brandt ?",
+        answers: {
+          A: "Bruit élevé",
+          B: "Faible capacité",
+          C: "Économie d’eau et d’énergie",
+          D: "Cycles longs"
+        },
+        correct: "C"
+      },
+      dishwasher: {
+        title: "🍽️ Lave-vaisselle Brandt",
+        question: "Pourquoi choisir un lave-vaisselle Brandt ?",
+        answers: {
+          A: "Nettoyage lent",
+          B: "Technologie silencieuse",
+          C: "Grande consommation d’eau",
+          D: "Peu de programmes"
+        },
+        correct: "B"
+      },
+      freezer: {
+        title: "🧊 Congélateurs Brandt",
+        question: "Quel est l’atout principal des congélateurs Brandt ?",
+        answers: {
+          A: "Froid instable",
+          B: "Faible autonomie",
+          C: "Conservation longue durée",
+          D: "Sans sécurité"
+        },
+        correct: "C"
+      }
+    };
+
+    // ✅ GET CATEGORY FROM LOCAL STORAGE
+    const category = localStorage.getItem("currentCategory");
+
+    if (!category || !questions[category]) {
+      alert("Veuillez sélectionner un indice");
+      window.location.href = "hints.html";
+    }
+
+    const q = questions[category];
+
+    document.getElementById("categoryTitle").innerText = q.title;
+    document.getElementById("questionText").innerText = q.question;
+    document.getElementById("A").innerText = "A. " + q.answers.A;
+    document.getElementById("B").innerText = "B. " + q.answers.B;
+    document.getElementById("C").innerText = "C. " + q.answers.C;
+    document.getElementById("D").innerText = "D. " + q.answers.D;
+
+    function checkAnswer(choice) {
+      const result = document.getElementById("result");
+
+      if (choice === q.correct) {
+        result.style.color = "green";
+        result.innerText = "✅ Bonne réponse !";
+        localStorage.setItem(category, "true");
+
+        setTimeout(() => {
+          window.location.href = "hints.html";
+        }, 1200);
+      } else {
+        result.style.color = "red";
+        result.innerText = "❌ Mauvaise réponse. Essayez encore.";
+      }
+    }
+  </script>
+
+</body>
+</html>

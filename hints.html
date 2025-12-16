@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Indices – Défi Brandt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #ce4a4a;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .progress {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .hint {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hint.locked {
+      opacity: 0.5;
+    }
+
+    .hint button {
+      background: #940202;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .hint button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    .completed {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🔍 Trouvez les indices</h1>
+
+  <div class="progress" id="progress"></div>
+
+  <!-- HINT 1 -->
+  <div class="hint" id="fridge">
+    <div>
+      <h3>❄️ Réfrigérateurs</h3>
+      <p>Je garde vos aliments frais plus longtemps.</p>
+    </div>
+    <button onclick="scanHint('fridge')">Scanner</button>
+  </div>
+
+  <!-- HINT 2 -->
+  <div class="hint" id="oven">
+    <div>
+      <h3>🍳 Cuisinières & Fours</h3>
+      <p>Je transforme vos recettes en succès.</p>
+    </div>
+    <button onclick="scanHint('oven')">Scanner</button>
+  </div>
+
+  <!-- HINT 3 -->
+  <div class="hint" id="washer">
+    <div>
+      <h3>🧺 Lave-linge</h3>
+      <p>Je prends soin de votre linge.</p>
+    </div>
+    <button onclick="scanHint('washer')">Scanner</button>
+  </div>
+
+  <!-- HINT 4 -->
+  <div class="hint" id="dishwasher">
+    <div>
+      <h3>🍽️ Lave-vaisselle</h3>
+      <p>Je nettoie sans effort.</p>
+    </div>
+    <button onclick="scanHint('dishwasher')">Scanner</button>
+  </div>
+
+  <!-- HINT 5 -->
+  <div class="hint" id="freezer">
+    <div>
+      <h3>🧊 Congélateurs</h3>
+      <p>Je conserve pour plus tard.</p>
+    </div>
+    <button onclick="scanHint('freezer')">Scanner</button>
+  </div>
+
+  <script>
+    const categories = [
+      'fridge',
+      'oven',
+      'washer',
+      'dishwasher',
+      'freezer'
+    ];
+
+    function initGame() {
+      let completed = 0;
+
+      categories.forEach(cat => {
+        if (localStorage.getItem(cat) === 'true') {
+          document.getElementById(cat).classList.add('locked');
+          document.querySelector(`#${cat} button`).disabled = true;
+          document.querySelector(`#${cat} button`).innerText = '✔ Terminé';
+          completed++;
+        }
+      });
+
+      document.getElementById('progress').innerText =
+        `Progression : ${completed} / 5`;
+
+      if (completed === 5) {
+        window.location.href = 'win.html';
+      }
+    }
+
+    function scanHint(category) {
+      localStorage.setItem('currentCategory', category);
+      window.location.href = 'scanner.html';
+    }
+
+    initGame();
+  </script>
+
+</body>
+</html>

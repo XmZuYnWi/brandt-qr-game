@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Scanner QR – Défi Brandt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+
+  <!-- QR Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #e40a0a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 320px;
+      margin: auto;
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1> Scanner le QR Code</h1>
+
+  <p>
+    Scannez le QR code pour commencer<br>
+    le défi Brandt
+  </p>
+
+  <!-- QR Scanner -->
+  <div id="reader"></div>
+
+  <div class="info">
+    Autorisez l’accès à la caméra
+  </div>
+
+  <script>
+    function onScanSuccess(decodedText, decodedResult) {
+      console.log("QR détecté :", decodedText);
+
+      // Stop scanning once QR is detected
+      html5QrcodeScanner.clear();
+
+      // Redirect to scanned URL
+      window.location.href = decodedText;
+    }
+
+    function onScanFailure(error) {
+      // Ignored on purpose
+    }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader",
+      {
+        fps: 10,
+        qrbox: 250
+      },
+      false
+    );
+
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+  </script>
+
+</body>
+</html>
